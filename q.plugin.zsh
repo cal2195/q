@@ -1,15 +1,21 @@
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main regexp)
 ZSH_HIGHLIGHT_REGEXP+=('\bq.?\b' 'fg=green,bold')
 ZSH_HIGHLIGHT_REGEXP+=('\bQ.?\b' 'fg=green,bold')
+ZSH_HIGHLIGHT_REGEXP+=('\bU.\b' 'fg=green,bold')
+zmodload zsh/regex
 
 read -d '' Q_HELP <<EOF
 
 Usage: q[char] [args]
        Q[char] [command]
+       U[char]
 
 Setting Registers:
  Q[char]                     Set register [char] to current directory
  Q[char] [command]           Set register [char] to [command]
+
+Unsetting Registers:
+ U[char]                     Unset register [char]
 
 Running Registers:
  q[char]                     Run command or cd to directory in register [char]
@@ -20,11 +26,13 @@ mkdir -p $HOME/.q
 
 print-regs() {
     echo "\nq - registers for zsh\n"
-    echo "Registers:"
-    for reg in $HOME/.q/*; do
-        echo -n " ${reg##*/}: "
-        cat $reg
-    done
+    if [[ ! -z `ls $HOME/.q` ]]; then
+        echo "Registers:"
+        for reg in $HOME/.q/*; do
+            echo -n " ${reg##*/}: "
+            cat $reg
+        done
+    fi
 }
 
 q-accept-line() {
@@ -32,27 +40,40 @@ q-accept-line() {
         print-regs
         echo "\n$Q_HELP"
         BUFFER=""
-    else
-        if [[ "${BUFFER:0:1}" == "Q" ]]; then
-            if [[ "${BUFFER:2:1}" == "" ]]; then
-                echo "cd `pwd`" > "$HOME/.q/${BUFFER:1:1}"
-                echo "\nRegister ${BUFFER:1:1} set to `pwd`"
+    elif [[ "$BUFFER" -regex-match "^[Qq][a-z]( (.*))?$" ]]; then
+        Q_COMMAND=${BUFFER:0:1}
+        REG=${BUFFER:1:1}
+        ARG=${BUFFER:2:1}
+
+        if [[ "$Q_COMMAND" == "Q" ]]; then
+            if [[ "$ARG" == "" ]]; then
+                echo "cd `pwd`" > "$HOME/.q/$REG"
+                echo "\nRegister $REG set to `pwd`"
+                BUFFER=""
+            elif [[ "$ARG" == " " ]]; then
+                echo ${BUFFER:3} > "$HOME/.q/$REG"
+                echo "\nRegister $REG set to ${BUFFER:3}"
                 BUFFER=""
             fi
-            if [[ "${BUFFER:2:1}" == " " ]]; then
-                echo ${BUFFER:3} > "$HOME/.q/${BUFFER:1:1}"
-                echo "\nRegister ${BUFFER:1:1} set to ${BUFFER:3}"
-                BUFFER=""
-            fi
-        fi
-        if [[ "${BUFFER:0:1}" == "q" && ( "${BUFFER:2:1}" == "" || "${BUFFER:2:1}" == " " ) ]]; then
-            if [[ -f "$HOME/.q/${BUFFER:1:1}" ]]; then
-                BUFFER="`cat $HOME/.q/${BUFFER:1:1}`${BUFFER:2}"
+        else
+            if [[ -f "$HOME/.q/$REG" ]]; then
+                BUFFER="`cat $HOME/.q/$REG`${BUFFER:2}"
             else
-                echo "\nRegister ${BUFFER:1:1} is unset."
+                echo "\nRegister $REG is unset."
                 BUFFER=""
             fi
         fi
+    elif [[ "$BUFFER" -regex-match "^U[a-z]$" ]]; then
+        Q_COMMAND=${BUFFER:0:1}
+        REG=${BUFFER:1:1}
+
+        if [[ -f "$HOME/.q/$REG" ]]; then
+            rm "$HOME/.q/$REG"
+            echo "\nUnset register $REG."
+        else
+            echo "\nRegister $REG already unset!"
+        fi
+        BUFFER=""
     fi
     zle .accept-line
 }
