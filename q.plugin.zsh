@@ -17,6 +17,8 @@ Running Registers:
  q[char] [args]              Run command in register [char] with [args]
 EOF
 
+mkdir -p $HOME/.q
+
 q-accept-line() {
     if [[ "${BUFFER}" == "q" || "${BUFFER}" == "Q" ]]; then
         echo "\n$Q_HELP"
