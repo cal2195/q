@@ -103,7 +103,7 @@ To unset a register, simply use the `U` command:
 Unset register h.
 ```
 
-### Usage Helpq - registers for zsh
+### Usage Help
 
 ```
 q - registers for zsh
