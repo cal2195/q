@@ -1,6 +1,22 @@
 # q - registers for your zsh shell
 **q** implements vim like macro registers in your zsh shell!
 
+## Installation
+
+### Antigen
+
+Simply place this line in your `.antigenrc`:
+```
+antigen bundle cal2195/q
+```
+
+### Manual
+
+Download `q.plugin.zsh` to somewhere and place this line in your `.zshrc`:
+```
+source /path/to/q.plugin.zsh
+```
+
 ## Usage
 
 ### Saving directories
