@@ -1,6 +1,6 @@
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main regexp)
-ZSH_HIGHLIGHT_REGEXP+=('\bq.\b' 'fg=green,bold')
-ZSH_HIGHLIGHT_REGEXP+=('\bQ.\b' 'fg=green,bold')
+ZSH_HIGHLIGHT_REGEXP+=('\bq.?\b' 'fg=green,bold')
+ZSH_HIGHLIGHT_REGEXP+=('\bQ.?\b' 'fg=green,bold')
 
 read -d '' Q_HELP <<EOF
 
