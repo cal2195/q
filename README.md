@@ -76,38 +76,59 @@ To see what registers you have set and their contents, just type `q`:q - registe
 
 ```
 > q
+q - registers for zsh
+
 Registers:
  c: cd /home/cal/.config
- E: cd /etc
  f: cd /home/cal/data/college/fyp
  g: cd /home/cal/data/git
- h: echo "hello world!"
- H: cd /home/cal
- v: vim
- x: cd /home/cal
+ x: cd /home/cal/data/college/fyp/experiments
 
 Usage: q[char] [args]
        Q[char] [command]
+       U[char]
 
 Setting Registers:
  Q[char]                     Set register [char] to current directory
  Q[char] [command]           Set register [char] to [command]
+
+Unsetting Registers:
+ U[char]                     Unset register [char]
 
 Running Registers:
  q[char]                     Run command or cd to directory in register [char]
  q[char] [args]              Run command in register [char] with [args]
 ```
 
-### Usage Help
+### Unsetting Registers
+
+To unset a register, simply use the `U` command:
+```
+> Uh
+Unset register h.
+```
+
+### Usage Helpq - registers for zsh
+
 ```
 q - registers for zsh
 
+Registers:
+ c: cd /home/cal/.config
+ f: cd /home/cal/data/college/fyp
+ g: cd /home/cal/data/git
+ x: cd /home/cal/data/college/fyp/experiments
+
 Usage: q[char] [args]
        Q[char] [command]
+       U[char]
 
 Setting Registers:
  Q[char]                     Set register [char] to current directory
  Q[char] [command]           Set register [char] to [command]
+
+Unsetting Registers:
+ U[char]                     Unset register [char]
 
 Running Registers:
  q[char]                     Run command or cd to directory in register [char]
