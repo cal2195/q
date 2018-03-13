@@ -25,14 +25,14 @@ source /path/to/q.plugin.zsh
 
 To set a register, use the command `Q`:
 ```
-> Qg
-Register x set to /home/cal/git
+> Qd
+Register d set to /home/cal/downloads
 ```
 
 To then `cd` to that directory, just use `q`:
 ```
-> qg
-cd /home/cal/git
+> qd
+cd /home/cal/downloads
 ```
 
 ### Saving commands
