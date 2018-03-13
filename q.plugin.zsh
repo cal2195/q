@@ -5,7 +5,6 @@ ZSH_HIGHLIGHT_REGEXP+=('\bU.\b' 'fg=green,bold')
 zmodload zsh/regex
 
 read -d '' Q_HELP <<EOF
-
 Usage: q[char] [args]
        Q[char] [command]
        U[char]
@@ -25,9 +24,8 @@ EOF
 mkdir -p $HOME/.q
 
 print-regs() {
-    echo "\nq - registers for zsh\n"
     if [[ ! -z `ls $HOME/.q` ]]; then
-        echo "Registers:"
+        echo "\nRegisters:"
         for reg in $HOME/.q/*; do
             echo -n " ${reg##*/}: "
             cat $reg
@@ -37,8 +35,9 @@ print-regs() {
 
 q-accept-line() {
     if [[ "${BUFFER}" == "q" || "${BUFFER}" == "Q" ]]; then
-        print-regs
+        echo "\nq - registers for zsh"
         echo "\n$Q_HELP"
+        print-regs
         BUFFER=""
     elif [[ "$BUFFER" -regex-match "^[Qq][a-z]( (.*))?$" ]]; then
         Q_COMMAND=${BUFFER:0:1}

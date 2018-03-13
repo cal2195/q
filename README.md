@@ -78,12 +78,6 @@ To see what registers you have set and their contents, just type `q`:
 > q
 q - registers for zsh
 
-Registers:
- c: cd /home/cal/.config
- f: cd /home/cal/data/college/fyp
- g: cd /home/cal/data/git
- x: cd /home/cal/data/college/fyp/experiments
-
 Usage: q[char] [args]
        Q[char] [command]
        U[char]
@@ -98,6 +92,12 @@ Unsetting Registers:
 Running Registers:
  q[char]                     Run command or cd to directory in register [char]
  q[char] [args]              Run command in register [char] with [args]
+
+Registers:
+ c: cd /home/cal/.config
+ f: cd /home/cal/data/college/fyp
+ g: cd /home/cal/data/git
+ x: cd /home/cal/data/college/fyp/experiments
 ```
 
 ### Unsetting Registers
@@ -113,12 +113,6 @@ Unset register h.
 ```
 q - registers for zsh
 
-Registers:
- c: cd /home/cal/.config
- f: cd /home/cal/data/college/fyp
- g: cd /home/cal/data/git
- x: cd /home/cal/data/college/fyp/experiments
-
 Usage: q[char] [args]
        Q[char] [command]
        U[char]
@@ -134,4 +128,9 @@ Running Registers:
  q[char]                     Run command or cd to directory in register [char]
  q[char] [args]              Run command in register [char] with [args]
 
+Registers:
+ c: cd /home/cal/.config
+ f: cd /home/cal/data/college/fyp
+ g: cd /home/cal/data/git
+ x: cd /home/cal/data/college/fyp/experiments
 ```
