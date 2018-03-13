@@ -1,5 +1,5 @@
 # q - registers for your zsh shell
-*q* implements vim like macro registers in your zsh shell!
+**q** implements vim like macro registers in your zsh shell!
 
 ## Usage
 
