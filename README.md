@@ -25,6 +25,7 @@ source /path/to/q.plugin.zsh
 
 To set a register, navigate to the directory and use the command `Q`:
 ```
+> cd ~/downloads
 > Qd
 Register d set to /home/cal/downloads
 ```
