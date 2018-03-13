@@ -39,7 +39,7 @@ q-accept-line() {
         echo "\n$Q_HELP"
         print-regs
         BUFFER=""
-    elif [[ "$BUFFER" -regex-match "^[Qq][a-z]( (.*))?$" ]]; then
+    elif [[ "$BUFFER" -regex-match "^[Qq][a-zA-Z0-9]( (.*))?$" ]]; then
         Q_COMMAND=${BUFFER:0:1}
         REG=${BUFFER:1:1}
         ARG=${BUFFER:2:1}
@@ -62,7 +62,7 @@ q-accept-line() {
                 BUFFER=""
             fi
         fi
-    elif [[ "$BUFFER" -regex-match "^U[a-z]$" ]]; then
+    elif [[ "$BUFFER" -regex-match "^U[a-zA-Z0-9]$" ]]; then
         Q_COMMAND=${BUFFER:0:1}
         REG=${BUFFER:1:1}
 
