@@ -25,19 +25,14 @@ source /path/to/q.plugin.zsh
 
 To set a register, use the command `Q`:
 ```
-Q[char] # Saves the current directory in register [char]
-```
-
-For example, to save the current directory in register `x`:
-```
-> Qx
-Register x set to /home/cal
+> Qg
+Register x set to /home/cal/git
 ```
 
 To then `cd` to that directory, just use `q`:
 ```
-> qx
-cd /home/cal
+> qg
+cd /home/cal/git
 ```
 
 ### Saving commands
