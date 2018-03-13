@@ -8,7 +8,7 @@
 Simply place this line in your `.antigenrc`:
 ```
 antigen bundle cal2195/q
-``
+```
 
 **NB:** if you use `zsh-users/zsh-syntax-highlighting`, make sure you place `antigen bundle cal2195/q` below it! :)
 
@@ -72,7 +72,7 @@ yaourt -Syyu
 
 ### Listing register contents
 
-To see what registers you have set and their contents, just type `q`:q - registers for zsh
+To see what registers you have set and their contents, just type `q`:
 
 ```
 > q
