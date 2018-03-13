@@ -1,3 +1,7 @@
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main regexp)
+ZSH_HIGHLIGHT_REGEXP+=('\bq.\b' 'fg=green,bold')
+ZSH_HIGHLIGHT_REGEXP+=('\bQ.\b' 'fg=green,bold')
+
 q-accept-line() {
     if [[ "${BUFFER}" == "q" || "${BUFFER}" == "Q" ]]; then
         echo "\nhelp"
