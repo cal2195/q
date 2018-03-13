@@ -3,7 +3,6 @@ ZSH_HIGHLIGHT_REGEXP+=('\bq.\b' 'fg=green,bold')
 ZSH_HIGHLIGHT_REGEXP+=('\bQ.\b' 'fg=green,bold')
 
 read -d '' Q_HELP <<EOF
-q - registers for zsh
 
 Usage: q[char] [args]
        Q[char] [command]
@@ -19,8 +18,18 @@ EOF
 
 mkdir -p $HOME/.q
 
+print-regs() {
+    echo "\nq - registers for zsh\n"
+    echo "Registers:"
+    for reg in $HOME/.q/*; do
+        echo -n " ${reg##*/}: "
+        cat $reg
+    done
+}
+
 q-accept-line() {
     if [[ "${BUFFER}" == "q" || "${BUFFER}" == "Q" ]]; then
+        print-regs
         echo "\n$Q_HELP"
         BUFFER=""
     else
