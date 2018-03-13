@@ -70,6 +70,34 @@ yaourt -Syyu
 ...
 ```
 
+### Listing register contents
+
+To see what registers you have set and their contents, just type `q`:q - registers for zsh
+
+```
+> q
+Registers:
+ c: cd /home/cal/.config
+ E: cd /etc
+ f: cd /home/cal/data/college/fyp
+ g: cd /home/cal/data/git
+ h: echo "hello world!"
+ H: cd /home/cal
+ v: vim
+ x: cd /home/cal
+
+Usage: q[char] [args]
+       Q[char] [command]
+
+Setting Registers:
+ Q[char]                     Set register [char] to current directory
+ Q[char] [command]           Set register [char] to [command]
+
+Running Registers:
+ q[char]                     Run command or cd to directory in register [char]
+ q[char] [args]              Run command in register [char] with [args]
+```
+
 ### Usage Help
 ```
 q - registers for zsh
