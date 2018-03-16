@@ -23,7 +23,7 @@ source /path/to/q.plugin.zsh
 
 ## Usage
 
-**q** commands start with the prefix `Q` for setting registers, `q` for executing registers, and `U` for unsetting registers.
+**q** commands start with the prefix <kbd>Q</kbd> for setting registers, <kbd>q</kbd> for executing registers, and <kbd>U</kbd> for unsetting registers.
 
 Register names can be any alphanumeric string! Command that already exist in your `$PATH` take priority:
 
@@ -34,14 +34,14 @@ Sorry, "qutebrowser" already exists in your $PATH! :(
 
 ### Saving directories
 
-To set a register, navigate to the directory and use the command `Q`:
+To set a register, navigate to the directory and use the command <kbd>Q</kbd>:
 ```
 > cd ~/fyp/experiments
 > Qfe
 Register fe set to /home/cal/fyp/experiments
 ```
 
-To then `cd` to that directory, just use `q`:
+To then `cd` to that directory, just use <kbd>q</kbd>:
 ```
 > qfe
 cd /home/cal/fyp/experiments
@@ -55,7 +55,7 @@ To save a command to a register, just add it after the register:
 Register i3c set to vim ~/.config/i3/config
 ```
 
-Then you can call up vim using `q`:
+Then you can call up vim using <kbd>q</kbd>:
 ```
 > qi3c
 vim ~/.config/i3/config
@@ -81,7 +81,7 @@ yaourt -Syyu
 
 ### Listing register contents
 
-To see what registers you have set and their contents, just type `q`:
+To see what registers you have set and their contents, just type <kbd>q</kbd>:
 
 ```
 > q
@@ -111,7 +111,7 @@ Registers:
 
 ### Unsetting Registers
 
-To unset a register, simply use the `U` command:
+To unset a register, simply use the <kbd>U</kbd> command:
 ```
 > Uh
 Unset register h.
