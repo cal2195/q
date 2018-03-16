@@ -1,6 +1,8 @@
 # q - registers for your zsh shell
 **q** implements vim like macro registers in your zsh shell!
 
+> Dynamic Terminal Aliases and Bookmarks On The Go!
+
 ## Installation
 
 ### Antigen
@@ -21,39 +23,50 @@ source /path/to/q.plugin.zsh
 
 ## Usage
 
+**q** commands start with the prefix `Q` for setting registers, `q` for executing registers, and `U` for unsetting registers.
+
+Register names can be any alphanumeric string! Command that already exist in your `$PATH` take priority:
+
+```
+> Qutebrowser
+Sorry, "qutebrowser" already exists in your $PATH! :(
+```
+
 ### Saving directories
 
 To set a register, navigate to the directory and use the command `Q`:
 ```
-> cd ~/downloads
-> Qd
-Register d set to /home/cal/downloads
+> cd ~/fyp/experiments
+> Qfe
+Register fe set to /home/cal/fyp/experiments
 ```
 
 To then `cd` to that directory, just use `q`:
 ```
-> qd
-cd /home/cal/downloads
+> qfe
+cd /home/cal/fyp/experiments
 ```
 
 ### Saving commands
 
 To save a command to a register, just add it after the register:
 ```
-> Qv vim
-Register v set to vim
+> Qi3c vim ~/.config/i3/config
+Register i3c set to vim ~/.config/i3/config
 ```
 
 Then you can call up vim using `q`:
 ```
-> qv
-vim
+> qi3c
+vim ~/.config/i3/config
 ```
 
 You can also add arguments!
 ```
-> qv .zshrc
-vim .zshrc
+> Qv vim
+Register v set to vim
+> qv .zsh/alias.zsh
+vim .zsh/alias.zsh
 ```
 
 Useful for longer commands:
@@ -74,20 +87,20 @@ To see what registers you have set and their contents, just type `q`:
 > q
 q - registers for zsh
 
-Usage: q[char] [args]
-       Q[char] [command]
-       U[char]
+Usage: q[register] [args]
+       Q[register] [command]
+       U[register]
 
 Setting Registers:
- Q[char]                     Set register [char] to current directory
- Q[char] [command]           Set register [char] to [command]
+ Q[register]                     Set register [register] to current directory
+ Q[register] [command]           Set register [register] to [command]
 
 Unsetting Registers:
- U[char]                     Unset register [char]
+ U[register]                     Unset register [register]
 
 Running Registers:
- q[char]                     Run command or cd to directory in register [char]
- q[char] [args]              Run command in register [char] with [args]
+ q[register]                     Run command or cd to directory in register [register]
+ q[register] [args]              Run command in register [register] with [args]
 
 Registers:
  c: cd /home/cal/.config
@@ -109,20 +122,20 @@ Unset register h.
 ```
 q - registers for zsh
 
-Usage: q[char] [args]
-       Q[char] [command]
-       U[char]
+Usage: q[register] [args]
+       Q[register] [command]
+       U[register]
 
 Setting Registers:
- Q[char]                     Set register [char] to current directory
- Q[char] [command]           Set register [char] to [command]
+ Q[register]                     Set register [register] to current directory
+ Q[register] [command]           Set register [register] to [command]
 
 Unsetting Registers:
- U[char]                     Unset register [char]
+ U[register]                     Unset register [register]
 
 Running Registers:
- q[char]                     Run command or cd to directory in register [char]
- q[char] [args]              Run command in register [char] with [args]
+ q[register]                     Run command or cd to directory in register [register]
+ q[register] [args]              Run command in register [register] with [args]
 
 Registers:
  c: cd /home/cal/.config

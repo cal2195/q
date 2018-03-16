@@ -3,26 +3,26 @@ zmodload zsh/regex
 
 # Integrate with zsh-syntax-highlighter
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main regexp)
-ZSH_HIGHLIGHT_REGEXP+=('\bq.?\b' 'fg=green,bold')
-ZSH_HIGHLIGHT_REGEXP+=('\bQ.?\b' 'fg=green,bold')
-ZSH_HIGHLIGHT_REGEXP+=('\bU.\b' 'fg=green,bold')
+ZSH_HIGHLIGHT_REGEXP+=('\bq.*\b' 'fg=green,bold')
+ZSH_HIGHLIGHT_REGEXP+=('\bQ.*\b' 'fg=green,bold')
+ZSH_HIGHLIGHT_REGEXP+=('\bU.*\b' 'fg=green,bold')
 
 # Setup the Q_HELP var
 read -d '' Q_HELP <<EOF
-Usage: q[char] [args]
-       Q[char] [command]
-       U[char]
+Usage: q[register] [args]
+       Q[register] [command]
+       U[register]
 
 Setting Registers:
- Q[char]                     Set register [char] to current directory
- Q[char] [command]           Set register [char] to [command]
+ Q[register]                     Set register [register] to current directory
+ Q[register] [command]           Set register [register] to [command]
 
 Unsetting Registers:
- U[char]                     Unset register [char]
+ U[register]                     Unset register [register]
 
 Running Registers:
- q[char]                     Run command or cd to directory in register [char]
- q[char] [args]              Run command in register [char] with [args]
+ q[register]                     Run command or cd to directory in register [register]
+ q[register] [args]              Run command in register [register] with [args]
 EOF
 
 # Create the register dir, if needed
@@ -40,20 +40,36 @@ print-regs() {
 }
 
 q-accept-line() {
-    # Check if we've been called with no arguments
-    if [[ "${BUFFER}" == "q" || "${BUFFER}" == "Q" ]]; then
-        echo "\nq - registers for zsh"
-        echo "\n$Q_HELP"
-        print-regs
-        BUFFER=""
-    # Check if a register is being called or set
-    elif [[ "$BUFFER" -regex-match "^[Qq][a-zA-Z0-9]( (.*))?$" ]]; then
-        # Parse out the command
-        Q_COMMAND=${BUFFER:0:1}
-        REG=${BUFFER:1:1}
-        ARG=${BUFFER:2:1}
+    if [[ "$BUFFER" =~ "^[QqU][a-zA-Z0-9]*" ]]; then
+        # If the command already exists, prefer that
+        if type "$MATCH" > /dev/null; then
+            zle .accept-line
+            return
+        fi
 
-        # If trying to set a registers
+        # Check if trying to set to an existing command
+        if type "q${MATCH:1}" > /dev/null; then
+            echo "\nSorry, \"q${MATCH:1}\" is already a command in your \$PATH! :("
+            BUFFER=""
+            zle .accept-line
+            return
+        fi
+
+        Q_COMMAND=${MATCH:0:1}
+        REG=${MATCH:1}
+        ARGS=${MATCH:${#MATCH}}
+
+        # If called without register, show help
+        if [[ $REG == "" ]]; then
+            echo "\nq - registers for zsh"
+            echo "\n$Q_HELP"
+            print-regs
+            BUFFER=""
+            zle .accept-line
+            return
+        fi
+
+        # If setting a register
         if [[ "$Q_COMMAND" == "Q" ]]; then
             # If there's no argument
             if [[ "$ARG" == "" ]]; then
@@ -61,34 +77,34 @@ q-accept-line() {
                 echo "cd `pwd`" > "$HOME/.q/$REG"
                 echo "\nRegister $REG set to `pwd`"
                 BUFFER=""
-            elif [[ "$ARG" == " " ]]; then
+            else
                 # Otherwise, set the register to the given command
-                echo ${BUFFER:3} > "$HOME/.q/$REG"
-                echo "\nRegister $REG set to ${BUFFER:3}"
+                echo $ARGS > "$HOME/.q/$REG"
+                echo "\nRegister $REG set to $ARGS"
                 BUFFER=""
             fi
         # If trying to call a register
-        else
+        elif [[ "$Q_COMMAND" == "q" ]]; then
+            # Check it exists
             if [[ -f "$HOME/.q/$REG" ]]; then
-                BUFFER="`cat $HOME/.q/$REG`${BUFFER:2}"
+                BUFFER="`cat $HOME/.q/$REG`$ARGS"
             else
                 echo "\nRegister $REG is unset."
                 BUFFER=""
             fi
-        fi
-    # Otherwise, if trying to unset a register
-    elif [[ "$BUFFER" -regex-match "^U[a-zA-Z0-9]$" ]]; then
-        Q_COMMAND=${BUFFER:0:1}
-        REG=${BUFFER:1:1}
-
-        if [[ -f "$HOME/.q/$REG" ]]; then
-            rm "$HOME/.q/$REG"
-            echo "\nUnset register $REG."
+        # If unsetting a register
         else
-            echo "\nRegister $REG already unset!"
+            # Check it exists
+            if [[ -f "$HOME/.q/$REG" ]]; then
+                rm "$HOME/.q/$REG"
+                echo "\nUnset register $REG."
+            else
+                echo "\nRegister $REG already unset!"
+            fi
+            BUFFER=""
         fi
-        BUFFER=""
     fi
+
     # Accept the line with the new BUFFER
     zle .accept-line
 }
