@@ -1,7 +1,7 @@
 # q - registers for your zsh shell
 **q** implements vim like macro registers in your zsh shell!
 
-> Dynamic Terminal Aliases and Bookmarks On The Go!
+*Dynamic Terminal Aliases and Bookmarks On The Go!*
 
 ## Installation
 
