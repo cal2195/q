@@ -57,7 +57,7 @@ q-accept-line() {
 
         Q_COMMAND=${MATCH:0:1}
         REG=${MATCH:1}
-        ARGS=${MATCH:${#MATCH}}
+        ARGS=${BUFFER:${#MATCH}}
 
         # If called without register, show help
         if [[ $REG == "" ]]; then
@@ -72,7 +72,7 @@ q-accept-line() {
         # If setting a register
         if [[ "$Q_COMMAND" == "Q" ]]; then
             # If there's no argument
-            if [[ "$ARG" == "" ]]; then
+            if [[ "$ARGS" == "" ]]; then
                 # Set the register to the current directory
                 echo "cd `pwd`" > "$HOME/.q/$REG"
                 echo "\nRegister $REG set to `pwd`"
