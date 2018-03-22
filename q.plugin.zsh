@@ -1,39 +1,39 @@
 # Load the regex module for regex expressions
 zmodload zsh/regex
 
-# Integrate with zsh-syntax-highlighter
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main regexp)
-ZSH_HIGHLIGHT_REGEXP+=('\bq.*\b' 'fg=green,bold')
-ZSH_HIGHLIGHT_REGEXP+=('\bQ.*\b' 'fg=green,bold')
-ZSH_HIGHLIGHT_REGEXP+=('\bU.*\b' 'fg=green,bold')
-
 # Check for a custom Q command
 # Check if Q_SET is defined
 if [[ -z $Q_SET ]]; then
-    if type "$Q_RUN" > /dev/null; then
-        echo "\nSorry, $Q_RUN is already a command in your \$PATH! :("
-    fi
-    echo 'Using default Q_SET'
     Q_SET="Q"
+else
+    if type "$Q_SET" > /dev/null; then
+        Q_SET="Q"
+    fi
 fi
 
 # Check if Q_RUN is defined
 if [[ -z $Q_RUN ]]; then
-    if type "$Q_SET" > /dev/null; then
-        echo "\nSorry, $Q_SET is already a command in your \$PATH! :("
-    fi
-    echo 'Using default Q_RUN'
     Q_RUN='q'
+else
+    if type "$Q_RUN" > /dev/null; then
+        Q_RUN='q'
+    fi
 fi
 
 # Check if Q_UNSET is defined
 if [[ -z $Q_UNSET ]]; then
+    Q_UNSET='U'
+else
     if type "$Q_UNSET" > /dev/null; then
-        u  echo "\nSorry, $Q_UNSET is already a command in your \$PATH! :("
+        Q_UNSET='U'
     fi
-   echo 'Using default Q_RUN'
-   Q_UNSET='U'
 fi
+
+# Integrate with zsh-syntax-highlighter
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main regexp)
+ZSH_HIGHLIGHT_REGEXP+=('\b$Q_RUN.*\b' 'fg=green,bold')
+ZSH_HIGHLIGHT_REGEXP+=('\b$Q_SET.*\b' 'fg=green,bold')
+ZSH_HIGHLIGHT_REGEXP+=('\b$Q_UNSET.*\b' 'fg=green,bold')
 
 # Setup the Q_HELP var
 read -d '' Q_HELP <<EOF
