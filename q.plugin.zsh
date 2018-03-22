@@ -7,6 +7,29 @@ ZSH_HIGHLIGHT_REGEXP+=('\bq.*\b' 'fg=green,bold')
 ZSH_HIGHLIGHT_REGEXP+=('\bQ.*\b' 'fg=green,bold')
 ZSH_HIGHLIGHT_REGEXP+=('\bU.*\b' 'fg=green,bold')
 
+# Check for a custom Q command
+echo $Q_SET
+echo $Q_RUN
+echo $Q_UNSET
+
+# Check if Q_SET is defined
+if [[ -z $Q_SET ]]; then
+    echo 'Using default set'
+    Q_SET="Q"
+fi
+
+# Check if Q_RUN is defined
+if [[ -z $Q_RUN ]]; then
+    echo 'Using default run'
+    Q_RUN='q'
+fi
+
+# Check if Q_UNSET is defined
+if [[ -z $Q_UNSET ]]; then
+   echo 'Using default unset'
+   Q_UNSET='U'
+fi
+
 # Setup the Q_HELP var
 read -d '' Q_HELP <<EOF
 Usage: q[register] [args]
@@ -40,7 +63,7 @@ print-regs() {
 }
 
 q-accept-line() {
-    if [[ "$BUFFER" =~ "^[QqU][a-zA-Z0-9]*" ]]; then
+    if [[ "$BUFFER" =~ "^[$Q_SET$Q_RUN$Q_UNSET][a-zA-Z0-9]*" ]]; then
         # If the command already exists, prefer that
         if type "$MATCH" > /dev/null; then
             zle .accept-line
@@ -70,7 +93,7 @@ q-accept-line() {
         fi
 
         # If setting a register
-        if [[ "$Q_COMMAND" == "Q" ]]; then
+        if [[ "$Q_COMMAND" == $Q_SET ]]; then
             # If there's no argument
             if [[ "$ARGS" == "" ]]; then
                 # Set the register to the current directory
@@ -84,7 +107,7 @@ q-accept-line() {
                 BUFFER=""
             fi
         # If trying to call a register
-        elif [[ "$Q_COMMAND" == "q" ]]; then
+        elif [[ "$Q_COMMAND" == $Q_RUN ]]; then
             # Check it exists
             if [[ -f "$HOME/.q/$REG" ]]; then
                 BUFFER="`cat $HOME/.q/$REG`$ARGS"
