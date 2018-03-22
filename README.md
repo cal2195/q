@@ -137,7 +137,7 @@ Unset register h.
 ```
 
 ### Setting Custom Commands
-To change the default commands (Q,q,U) to something else just set three variables in .zshrc/.bashrc:
+To change the default commands (Q,q,U) to something else just set three variables in .zshrc/.bashrc before sourcing the script:
 ```
 Q_SET='<new_set_command>'
 Q_RUN='<new_run_command>'
