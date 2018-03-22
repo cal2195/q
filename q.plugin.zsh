@@ -5,28 +5,25 @@ zmodload zsh/regex
 # Check if Q_SET is defined
 if [[ -z $Q_SET ]]; then
     Q_SET="Q"
-else
-    if type "$Q_SET" > /dev/null; then
-        Q_SET="Q"
-    fi
+elif type "$Q_SET" > /dev/null; then
+    echo "$Q_SET already exists in your path, using default Q."
+    Q_SET="Q"
 fi
 
 # Check if Q_RUN is defined
 if [[ -z $Q_RUN ]]; then
     Q_RUN='q'
-else
-    if type "$Q_RUN" > /dev/null; then
-        Q_RUN='q'
-    fi
+elif type "$Q_RUN" > /dev/null; then
+    echo "$Q_RUN already exists in your path, using default q."
+    Q_RUN='q'
 fi
 
 # Check if Q_UNSET is defined
 if [[ -z $Q_UNSET ]]; then
     Q_UNSET='U'
-else
-    if type "$Q_UNSET" > /dev/null; then
-        Q_UNSET='U'
-    fi
+elif type "$Q_UNSET" > /dev/null; then
+    echo "$Q_UNSET already exists in your path, using default U."
+    Q_UNSET='U'
 fi
 
 # Integrate with zsh-syntax-highlighter
