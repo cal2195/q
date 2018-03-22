@@ -1,6 +1,8 @@
 # q - registers for your bash and zsh shell
 **q** implements vim like macro registers in your bash and zsh shell!
 
+[![asciicast](https://asciinema.org/a/aIMmhJ2ayudv65d7eDWJZtSmi.png)](https://asciinema.org/a/aIMmhJ2ayudv65d7eDWJZtSmi)
+
 *Dynamic Terminal Aliases and Bookmarks On The Go!*
 
 ## Maintainers
