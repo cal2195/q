@@ -117,6 +117,14 @@ To unset a register, simply use the <kbd>U</kbd> command:
 Unset register h.
 ```
 
+### Setting Custom Commands
+To change the default commands (Q,q,U) to something else just set three variables in .zshrc/.bashrc:
+```
+Q_SET='<new_set_command>'
+Q_RUN='<new_run_command>'
+Q_UNSET='<new_unset_command>'
+```
+
 ### Usage Help
 
 ```

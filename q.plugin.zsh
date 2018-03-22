@@ -1,11 +1,39 @@
 # Load the regex module for regex expressions
 zmodload zsh/regex
 
+# Check for a custom Q command
+# Check if Q_SET is defined
+if [[ -z $Q_SET ]]; then
+    Q_SET="Q"
+else
+    if type "$Q_SET" > /dev/null; then
+        Q_SET="Q"
+    fi
+fi
+
+# Check if Q_RUN is defined
+if [[ -z $Q_RUN ]]; then
+    Q_RUN='q'
+else
+    if type "$Q_RUN" > /dev/null; then
+        Q_RUN='q'
+    fi
+fi
+
+# Check if Q_UNSET is defined
+if [[ -z $Q_UNSET ]]; then
+    Q_UNSET='U'
+else
+    if type "$Q_UNSET" > /dev/null; then
+        Q_UNSET='U'
+    fi
+fi
+
 # Integrate with zsh-syntax-highlighter
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main regexp)
-ZSH_HIGHLIGHT_REGEXP+=('\bq.*\b' 'fg=green,bold')
-ZSH_HIGHLIGHT_REGEXP+=('\bQ.*\b' 'fg=green,bold')
-ZSH_HIGHLIGHT_REGEXP+=('\bU.*\b' 'fg=green,bold')
+ZSH_HIGHLIGHT_REGEXP+=('\b$Q_RUN.*\b' 'fg=green,bold')
+ZSH_HIGHLIGHT_REGEXP+=('\b$Q_SET.*\b' 'fg=green,bold')
+ZSH_HIGHLIGHT_REGEXP+=('\b$Q_UNSET.*\b' 'fg=green,bold')
 
 # Setup the Q_HELP var
 read -d '' Q_HELP <<EOF
@@ -40,7 +68,7 @@ print-regs() {
 }
 
 q-accept-line() {
-    if [[ "$BUFFER" =~ "^[QqU][a-zA-Z0-9]*" ]]; then
+    if [[ "$BUFFER" =~ "^[$Q_SET$Q_RUN$Q_UNSET][a-zA-Z0-9]*" ]]; then
         # If the command already exists, prefer that
         if type "$MATCH" > /dev/null; then
             zle .accept-line
@@ -70,7 +98,7 @@ q-accept-line() {
         fi
 
         # If setting a register
-        if [[ "$Q_COMMAND" == "Q" ]]; then
+        if [[ "$Q_COMMAND" == $Q_SET ]]; then
             # If there's no argument
             if [[ "$ARGS" == "" ]]; then
                 # Set the register to the current directory
@@ -84,7 +112,7 @@ q-accept-line() {
                 BUFFER=""
             fi
         # If trying to call a register
-        elif [[ "$Q_COMMAND" == "q" ]]; then
+        elif [[ "$Q_COMMAND" == $Q_RUN ]]; then
             # Check it exists
             if [[ -f "$HOME/.q/$REG" ]]; then
                 BUFFER="`cat $HOME/.q/$REG`$ARGS"
