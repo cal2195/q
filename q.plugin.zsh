@@ -70,6 +70,19 @@ q-accept-line() {
             return
         fi
 
+        # Check if the custom commands are already existing commands
+        if type "$Q_RUN" > /dev/null; then
+            echo "\nSorry, $Q_RUN is already a command in your \$PATH! :("
+        fi
+
+        if type "$Q_SET" > /dev/null; then
+            echo "\nSorry, $Q_SET is already a command in your \$PATH! :("
+        fi
+
+        if type "$Q_UNSET" > /dev/null; then
+         u  echo "\nSorry, $Q_UNSET is already a command in your \$PATH! :("
+        fi
+
         # Check if trying to set to an existing command
         if type "q${MATCH:1}" > /dev/null; then
             echo "\nSorry, \"q${MATCH:1}\" is already a command in your \$PATH! :("
