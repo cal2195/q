@@ -3,6 +3,12 @@
 
 *Dynamic Terminal Aliases and Bookmarks On The Go!*
 
+## Maintainers
+
+:small_orange_diamond: [Cal Martin](https://github.com/cal2195) - Initial implemenation
+
+:small_orange_diamond: [Oisin Johnston](https://github.com/DaJuice) - Reconfigurable <kbd>key</kbd> bindings :)
+
 ## Installation
 
 ### Bash
