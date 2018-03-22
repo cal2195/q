@@ -32,24 +32,6 @@ ZSH_HIGHLIGHT_REGEXP+=('\b$Q_RUN.*\b' 'fg=green,bold')
 ZSH_HIGHLIGHT_REGEXP+=('\b$Q_SET.*\b' 'fg=green,bold')
 ZSH_HIGHLIGHT_REGEXP+=('\b$Q_UNSET.*\b' 'fg=green,bold')
 
-# Setup the Q_HELP var
-read -d '' Q_HELP <<EOF
-Usage: q[register] [args]
-       Q[register] [command]
-       U[register]
-
-Setting Registers:
- Q[register]                     Set register [register] to current directory
- Q[register] [command]           Set register [register] to [command]
-
-Unsetting Registers:
- U[register]                     Unset register [register]
-
-Running Registers:
- q[register]                     Run command or cd to directory in register [register]
- q[register] [args]              Run command in register [register] with [args]
-EOF
-
 # Create the register dir, if needed
 mkdir -p $HOME/.q
 
@@ -87,7 +69,23 @@ q-accept-line() {
         # If called without register, show help
         if [[ $REG == "" ]]; then
             echo "\nq - registers for zsh"
-            echo "\n$Q_HELP"
+            cat << EOF
+Usage:
+    $Q_RUN[register] [args]
+    $Q_SET[register] [command]
+    $Q_UNSET[register]
+
+Setting Registers:
+    $Q_SET[register]                     Set register [register] to current directory
+    $Q_SET[register] [command]           Set register [register] to [command]
+
+Unsetting Registers:
+    $Q_UNSET[register]                   Unset register [register]
+
+Running Registers:
+    $Q_RUN[register]                     Run command or cd to directory in register [register]
+    $Q_RUN[register] [args]              Run command in register [register] with [args]
+EOF
             print-regs
             BUFFER=""
             zle .accept-line
