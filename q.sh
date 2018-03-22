@@ -1,23 +1,33 @@
 # Used to hook into bash before exec
 shopt -s extdebug
 
-# Create the register dir, if needed
-mkdir -p $HOME/.q
-
+# Check for a custom Q command
 # Check if Q_SET is defined
 if [[ -z $Q_SET ]]; then
+    Q_SET="Q"
+elif type "$Q_SET" > /dev/null; then
+    echo "$Q_SET already exists in your path, using default Q."
     Q_SET="Q"
 fi
 
 # Check if Q_RUN is defined
 if [[ -z $Q_RUN ]]; then
-    Q_RUN="q"
+    Q_RUN='q'
+elif type "$Q_RUN" > /dev/null; then
+    echo "$Q_RUN already exists in your path, using default q."
+    Q_RUN='q'
 fi
 
 # Check if Q_UNSET is defined
 if [[ -z $Q_UNSET ]]; then
-    Q_UNSET="U"
+    Q_UNSET='U'
+elif type "$Q_UNSET" > /dev/null; then
+    echo "$Q_UNSET already exists in your path, using default U."
+    Q_UNSET='U'
 fi
+
+# Create the register dir, if needed
+mkdir -p $HOME/.q
 
 print-regs() {
     # If the dir is not empty, print out each register and it's contents
