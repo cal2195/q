@@ -8,25 +8,30 @@ ZSH_HIGHLIGHT_REGEXP+=('\bQ.*\b' 'fg=green,bold')
 ZSH_HIGHLIGHT_REGEXP+=('\bU.*\b' 'fg=green,bold')
 
 # Check for a custom Q command
-echo $Q_SET
-echo $Q_RUN
-echo $Q_UNSET
-
 # Check if Q_SET is defined
 if [[ -z $Q_SET ]]; then
-    echo 'Using default set'
+    if type "$Q_RUN" > /dev/null; then
+        echo "\nSorry, $Q_RUN is already a command in your \$PATH! :("
+    fi
+    echo 'Using default Q_SET'
     Q_SET="Q"
 fi
 
 # Check if Q_RUN is defined
 if [[ -z $Q_RUN ]]; then
-    echo 'Using default run'
+    if type "$Q_SET" > /dev/null; then
+        echo "\nSorry, $Q_SET is already a command in your \$PATH! :("
+    fi
+    echo 'Using default Q_RUN'
     Q_RUN='q'
 fi
 
 # Check if Q_UNSET is defined
 if [[ -z $Q_UNSET ]]; then
-   echo 'Using default unset'
+    if type "$Q_UNSET" > /dev/null; then
+        u  echo "\nSorry, $Q_UNSET is already a command in your \$PATH! :("
+    fi
+   echo 'Using default Q_RUN'
    Q_UNSET='U'
 fi
 
@@ -68,19 +73,6 @@ q-accept-line() {
         if type "$MATCH" > /dev/null; then
             zle .accept-line
             return
-        fi
-
-        # Check if the custom commands are already existing commands
-        if type "$Q_RUN" > /dev/null; then
-            echo "\nSorry, $Q_RUN is already a command in your \$PATH! :("
-        fi
-
-        if type "$Q_SET" > /dev/null; then
-            echo "\nSorry, $Q_SET is already a command in your \$PATH! :("
-        fi
-
-        if type "$Q_UNSET" > /dev/null; then
-         u  echo "\nSorry, $Q_UNSET is already a command in your \$PATH! :("
         fi
 
         # Check if trying to set to an existing command
