@@ -1,11 +1,22 @@
-# q - registers for your zsh shell
-**q** implements vim like macro registers in your zsh shell!
+# q - registers for your bash and zsh shell
+**q** implements vim like macro registers in your bash and zsh shell!
 
 *Dynamic Terminal Aliases and Bookmarks On The Go!*
 
 ## Installation
 
-### Antigen
+### Bash
+
+#### Manual
+
+Download `q.sh` to somewhere, and place this line in your `.bashrc`:
+```
+source /path/to/q.sh
+```
+
+### ZSH
+
+#### Antigen
 
 Simply place this line in your `.antigenrc`:
 ```
@@ -14,7 +25,7 @@ antigen bundle cal2195/q
 
 **NB:** if you use `zsh-users/zsh-syntax-highlighting`, make sure you place `antigen bundle cal2195/q` below it! :)
 
-### Manual
+#### Manual
 
 Download `q.plugin.zsh` to somewhere and place this line in your `.zshrc`:
 ```
