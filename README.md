@@ -1,11 +1,30 @@
-# q - registers for your zsh shell
-**q** implements vim like macro registers in your zsh shell!
+# q - registers for your bash and zsh shell
+**q** implements vim like macro registers in your bash and zsh shell!
+
+[![asciicast](https://asciinema.org/a/aIMmhJ2ayudv65d7eDWJZtSmi.png)](https://asciinema.org/a/aIMmhJ2ayudv65d7eDWJZtSmi)
 
 *Dynamic Terminal Aliases and Bookmarks On The Go!*
 
+## Maintainers
+
+:small_orange_diamond: [Cal Martin](https://github.com/cal2195) - Initial implemenation
+
+:small_orange_diamond: [Oisin Johnston](https://github.com/DaJuice) - Reconfigurable <kbd>key</kbd> bindings :)
+
 ## Installation
 
-### Antigen
+### Bash
+
+#### Manual
+
+Download `q.sh` to somewhere, and place this line in your `.bashrc`:
+```
+source /path/to/q.sh
+```
+
+### ZSH
+
+#### Antigen
 
 Simply place this line in your `.antigenrc`:
 ```
@@ -14,7 +33,7 @@ antigen bundle cal2195/q
 
 **NB:** if you use `zsh-users/zsh-syntax-highlighting`, make sure you place `antigen bundle cal2195/q` below it! :)
 
-### Manual
+#### Manual
 
 Download `q.plugin.zsh` to somewhere and place this line in your `.zshrc`:
 ```
@@ -118,7 +137,7 @@ Unset register h.
 ```
 
 ### Setting Custom Commands
-To change the default commands (Q,q,U) to something else just set three variables in .zshrc/.bashrc:
+To change the default commands (Q,q,U) to something else just set three variables in .zshrc/.bashrc before sourcing the script:
 ```
 Q_SET='<new_set_command>'
 Q_RUN='<new_run_command>'
