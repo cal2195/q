@@ -28,9 +28,9 @@ fi
 
 # Integrate with zsh-syntax-highlighter
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main regexp)
-ZSH_HIGHLIGHT_REGEXP+=('\b$Q_RUN.*\b' 'fg=green,bold')
-ZSH_HIGHLIGHT_REGEXP+=('\b$Q_SET.*\b' 'fg=green,bold')
-ZSH_HIGHLIGHT_REGEXP+=('\b$Q_UNSET.*\b' 'fg=green,bold')
+ZSH_HIGHLIGHT_REGEXP+=("\b${Q_RUN}.*\b" 'fg=green,bold')
+ZSH_HIGHLIGHT_REGEXP+=("\b${Q_SET}.*\b" 'fg=green,bold')
+ZSH_HIGHLIGHT_REGEXP+=("\b${Q_UNSET}.*\b" 'fg=green,bold')
 
 # Create the register dir, if needed
 mkdir -p $HOME/.q
@@ -71,20 +71,20 @@ q-accept-line() {
             echo "\nq - registers for zsh"
             cat << EOF
 Usage:
-    $Q_RUN[register] [args]
-    $Q_SET[register] [command]
-    $Q_UNSET[register]
+    ${Q_RUN}[register] [args]
+    ${Q_SET}[register] [command]
+    ${Q_UNSET}[register]
 
 Setting Registers:
-    $Q_SET[register]                     Set register [register] to current directory
-    $Q_SET[register] [command]           Set register [register] to [command]
+    ${Q_SET}[register]                     Set register [register] to current directory
+    ${Q_SET}[register] [command]           Set register [register] to [command]
 
 Unsetting Registers:
-    $Q_UNSET[register]                   Unset register [register]
+    ${Q_UNSET}[register]                   Unset register [register]
 
 Running Registers:
-    $Q_RUN[register]                     Run command or cd to directory in register [register]
-    $Q_RUN[register] [args]              Run command in register [register] with [args]
+    ${Q_RUN}[register]                     Run command or cd to directory in register [register]
+    ${Q_RUN}[register] [args]              Run command in register [register] with [args]
 EOF
             print-regs
             BUFFER=""
