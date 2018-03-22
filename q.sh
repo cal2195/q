@@ -1,26 +1,23 @@
 # Used to hook into bash before exec
 shopt -s extdebug
 
-# Setup the Q_HELP var
-read -d '' Q_HELP <<EOF
-Usage: q[register] [args]
-       Q[register] [command]
-       U[register]
-
-Setting Registers:
- Q[register]                     Set register [register] to current directory
- Q[register] [command]           Set register [register] to [command]
-
-Unsetting Registers:
- U[register]                     Unset register [register]
-
-Running Registers:
- q[register]                     Run command or cd to directory in register [register]
- q[register] [args]              Run command in register [register] with [args]
-EOF
-
 # Create the register dir, if needed
 mkdir -p $HOME/.q
+
+# Check if Q_SET is defined
+if [[ -z $Q_SET ]]; then
+    Q_SET="Q"
+fi
+
+# Check if Q_RUN is defined
+if [[ -z $Q_RUN ]]; then
+    Q_RUN="q"
+fi
+
+# Check if Q_UNSET is defined
+if [[ -z $Q_UNSET ]]; then
+    Q_UNSET="U"
+fi
 
 print-regs() {
     # If the dir is not empty, print out each register and it's contents
@@ -40,7 +37,7 @@ preexec_invoke_exec () {
 
     BUFFER=$BASH_COMMAND
 
-    if [[ "$BUFFER" =~ ^[QqU][a-zA-Z0-9]* ]]; then
+    if [[ "$BUFFER" =~ ^[$Q_SET$Q_RUN$Q_UNSET][a-zA-Z0-9]* ]]; then
         # If the command already exists, prefer that
         if type "$BASH_REMATCH" > /dev/null 2>&1; then
             return 0
@@ -60,14 +57,30 @@ preexec_invoke_exec () {
         # If called without register, show help
         if [[ $REG == "" ]]; then
             echo "q - registers for zsh"
-            echo "$Q_HELP"
+            cat << EOF
+Usage:
+    $Q_RUN[register] [args]
+    $Q_SET[register] [command]
+    $Q_UNSET[register]
+
+Setting Registers:
+    $Q_SET[register]                     Set register [register] to current directory
+    $Q_SET[register] [command]           Set register [register] to [command]
+
+Unsetting Registers:
+    $Q_UNSET[register]                     Unset register [register]
+
+Running Registers:
+    $Q_RUN[register]                     Run command or cd to directory in register [register]
+    $Q_RUN[register] [args]              Run command in register [register] with [args]
+EOF
             print-regs
             BUFFER=""
             return 1
         fi
 
         # If setting a register
-        if [[ "$Q_COMMAND" == "Q" ]]; then
+        if [[ "$Q_COMMAND" == "$Q_SET" ]]; then
             # If there's no argument
             if [[ "$ARGS" == "" ]]; then
                 # Set the register to the current directory
@@ -81,7 +94,7 @@ preexec_invoke_exec () {
                 BUFFER=""
             fi
         # If trying to call a register
-        elif [[ "$Q_COMMAND" == "q" ]]; then
+        elif [[ "$Q_COMMAND" == "$Q_RUN" ]]; then
             # Check it exists
             if [[ -f "$HOME/.q/$REG" ]]; then
                 BUFFER="`cat $HOME/.q/$REG`$ARGS"
