@@ -123,6 +123,8 @@ EOF
             fi
             BUFFER=""
         fi
+    else
+        return 0
     fi
 
     if [[ ! -z $BUFFER ]]; then
