@@ -133,3 +133,4 @@ EOF
     return 1 # This prevent executing of original command
 }
 trap 'preexec_invoke_exec' DEBUG
+set +T
